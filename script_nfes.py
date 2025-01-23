@@ -1,3 +1,17 @@
+import time
+import sys
+
+dia = time.strftime("%d", time.gmtime())
+with open("JaFoiEnviadoOsArquivos.txt", "r+", encoding="UTF-8") as file:
+
+    tmp = file.read()
+    if tmp == "True":
+        if dia == "01":
+            file.write("False")
+        sys.exit()
+
+##############################################################################
+
 """             Pegar CNPJ e criar o caminho até as NFEs              """
 
 import time
@@ -26,8 +40,8 @@ cnpj = ""
 for elementos in temp:
     cnpj = cnpj+elementos
 
-ano = time.strftime("%Y", time.localtime())
-mes = time.strftime("%m", time.localtime())
+ano = time.strftime("%Y", time.gmtime())
+mes = time.strftime("%m", time.gmtime())
 
 if mes == "01":
     mes = "12"
@@ -77,9 +91,9 @@ from smtplib import SMTP, SMTP_SSL
 CABECALHO_EMAIL = f'XML DE SAIDA - Cliente'
 Body = f'SEGUE EM ANEXO OS XML DE SAIDO - Cliente'
 
-remetente = "ferreiradasilvawelder8@gmail.com"
+remetente = "##########################"
 senha_remetente = "####################"
-para = "weldermalaquiasferreira@gmail.com"
+para = "###############################"
 
 mensagem = MIMEMultipart()
 mensagem['Subject'] = CABECALHO_EMAIL 
