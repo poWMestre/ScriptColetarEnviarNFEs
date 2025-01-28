@@ -1,3 +1,8 @@
+###############################################################################
+
+""" No arquivo JaFoiEnviadoOsArquivos.txt fica alterando entre True/False.
+Sendo uma variável 'global' e significando que o arquivo do mês já foi enviado"""
+
 import time
 import sys
 import os
@@ -88,7 +93,28 @@ if (dia >= 5 and dia <= 15) and tmp == "False":
     make_archive(nome_da_pasta, 'zip', DIRETORIO_DAS_NFE)
 
 #######################################################################################################################
-        
+
+    """           Pegar o nome do cliente             """
+
+    import time
+    import os
+    import sys
+
+    # Pega o nome do cliente dentro do arquivo NomeDoCliente.txt
+    caminho = ""
+    if getattr(sys, 'frozen', False):
+        caminho = os.path.join(sys._MEIPASS, 'NomeDoCliente.txt')
+    else:
+        caminho = "F:\\Nova pasta\\scriptDigisat\\NomeDoCliente.txt"
+
+    nome_cliente = ""
+    with open(caminho, 'r', encoding="UTF-8") as file:
+        nome_cliente = file.read()
+
+
+
+#################################################################################       
+
     """           Enviar as NFEs            """
 
     from email import encoders
@@ -99,8 +125,8 @@ if (dia >= 5 and dia <= 15) and tmp == "False":
     import stat
     from smtplib import SMTP, SMTP_SSL
 
-    CABECALHO_EMAIL = f'XML DE SAIDA - Orlibrei'
-    Body = f'SEGUE EM ANEXO OS XML DE SAIDA - Orlibrei'
+    CABECALHO_EMAIL = f'XML DE SAIDA - {nome_cliente}'
+    Body = f'SEGUE EM ANEXO OS XML DE SAIDA - {nome_cliente}'
 
     remetente = "#########################"
     senha_remetente = "###################"
@@ -111,7 +137,7 @@ if (dia >= 5 and dia <= 15) and tmp == "False":
     mensagem['To'] = para
     mensagem['From'] = remetente
 
-    mensagem.attach(MIMEText("SEGUE EM ANEXO OS XML DE SAIDA - Orlibrei"))
+    mensagem.attach(MIMEText(f'SEGUE EM ANEXO OS XML DE SAIDA - {nome_cliente}'))
 
 
     pasta = mudar_diretorio_para_salvar+"\\"+nome_da_pasta+".zip"
@@ -132,7 +158,9 @@ if (dia >= 5 and dia <= 15) and tmp == "False":
 
 ################################################################################
 
-    """       Para colocar dizer que já enviou o arquivo        """
+    """       Para dizer que já enviou o arquivo        """
 
+    #Altera pra True dentro do arquivo JaFoiEnviadoOsArquivos.txt
+    
     with open(caminho, "w", encoding="UTF-8") as file:
         file.write("True")
